@@ -173,7 +173,7 @@ func WriteProofInSolidity(proof groth16.Proof, fn string) error {
 	}
 
 	commitmentsInSol := make([]*big.Int, commitmentsLen*eachCommitmentLen)
-	for i := 0; i < commitmentsLen; i++ {
+	for i := range commitmentsLen {
 		commitmentsInSol[i*eachCommitmentLen] = new(big.Int).SetBytes(_proof.Commitments[i].X.Marshal())
 		commitmentsInSol[i*eachCommitmentLen+1] = new(big.Int).SetBytes(_proof.Commitments[i].Y.Marshal())
 	}

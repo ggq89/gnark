@@ -10,19 +10,6 @@ import (
 	"github.com/consensys/gnark/test"
 )
 
-func Test_WriteProofInSolidity(t *testing.T) {
-	proof, err := ReadProof("./proof")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	err = WriteProofInSolidity(proof, "./proof_in_sol")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-}
-
 func Test_SolAndProof(t *testing.T) {
 	assert := test.NewAssert(t)
 	var circuit Circuit
@@ -47,18 +34,27 @@ func Test_SolAndProof(t *testing.T) {
 	proof, err := groth16.Prove(ccs, pk, witness)
 	assert.NoError(err)
 
-	// err = WriteProof(proof, "./proof")
-	// assert.NoError(err)
-
 	publicWitness, err := witness.Public()
 	assert.NoError(err)
 
 	err = groth16.Verify(proof, vk, publicWitness)
 	assert.NoError(err)
 
-	err = WriteProofInSolidity(proof, "./proof_in_sol")
+	err = WriteProof(proof, "./proof")
 	assert.NoError(err)
 
 	err = WritePublicWitnessInJson(publicWitness, "./public_witness.json")
 	assert.NoError(err)
+}
+
+func Test_WriteProofInSolidity(t *testing.T) {
+	proof, err := ReadProof("./proof")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = WriteProofInSolidity(proof, "./proof_in_sol")
+	if err != nil {
+		t.Fatal(err)
+	}
 }
